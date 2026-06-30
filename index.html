@@ -89,11 +89,15 @@
   .mk.you .pulse.d2{animation-delay:1s;}
   .mk.ava{width:34px; height:34px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 3px 9px rgba(0,0,0,.25); border:2px solid #fff;}
   .mk.ava.girl{border-color:#F2A98F;} .mk.ava.prog{border-color:#8FCFC4;}
-  .mk.pin{transform:translate(-50%,-100%);}
-  #agPin{cursor:pointer;}
-  .mk.pin svg{display:block; filter:drop-shadow(0 2px 3px rgba(0,0,0,.32));}
-  .mk.pin .glow{position:absolute; left:50%; top:11px; width:34px; height:34px; transform:translate(-50%,-50%); border-radius:50%; background:var(--accent); opacity:0;}
-  .mk.pin.hit .glow{animation:pinhit .75s ease-out;}
+  .mk.pin{transform:translate(-50%,-100%); cursor:pointer;}
+  .mk.pin svg{display:block; filter:drop-shadow(0 2px 3px rgba(0,0,0,.32)); transition:transform .2s cubic-bezier(.2,.8,.2,1);}
+  .mk.pin:hover svg{transform:translateY(-2px) scale(1.06);}
+  .mk.pin .ball{fill:#B7B1A6; transition:fill .25s;}
+  .mk.pin .stick{stroke:#9a948b; transition:stroke .25s;}
+  .mk.pin .ctr{fill:#ECE9E2;}
+  .mk.pin.active .ball{fill:#F0512E;}
+  .mk.pin.active .stick{stroke:#6b6159;}
+  .mk.pin.active .ctr{fill:#fff;}
   .ag-topscrim{position:absolute; top:0; left:0; right:0; height:104px; background:linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,0)); z-index:3; pointer-events:none;}
   .ag-status{position:absolute; top:9px; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:0 22px; font-size:13px; font-weight:600; color:var(--ink); z-index:4;}
   .ag-dots{position:absolute; top:40px; right:16px; width:42px; height:42px; border-radius:50%; background:#fff; border:none; box-shadow:0 3px 12px rgba(34,31,27,.2); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:6;}
@@ -129,7 +133,8 @@
   @keyframes fabidle{0%,100%{box-shadow:0 6px 16px rgba(240,81,46,.4);}50%{box-shadow:0 6px 24px rgba(240,81,46,.62);}}
   @keyframes fabpulse{0%{box-shadow:0 0 0 0 rgba(240,81,46,.5);}70%{box-shadow:0 0 0 16px rgba(240,81,46,0);}100%{box-shadow:0 0 0 0 rgba(240,81,46,0);}}
   @keyframes youping{0%{transform:scale(1); opacity:.55;}70%{opacity:0;}100%{transform:scale(4.6); opacity:0;}}
-  @keyframes pinhit{0%{opacity:.5;}100%{opacity:0;}}
+  @keyframes cardin{from{transform:translateX(48px); opacity:0;} to{transform:translateX(0); opacity:1;}}
+  .ag-now.slide{animation:cardin .42s cubic-bezier(.22,.9,.25,1);}
 
   @media (max-width: 560px){
     .ag-doc{padding:2.6rem .9rem 3.2rem;}
@@ -239,12 +244,17 @@
             <div class="lyr color"></div>
             <div class="lyr fog"></div>
             <span class="osm-cred">© OpenStreetMap</span>
-            <div class="mk pin" id="agPin" style="left:58%; top:24%;">
-              <span class="glow"></span>
-              <svg width="22" height="34" viewBox="0 0 22 34"><line x1="11" y1="18" x2="11" y2="33.5" stroke="#6b6159" stroke-width="2.6" stroke-linecap="round"/><circle cx="11" cy="11" r="9" fill="#F0512E" stroke="#fff" stroke-width="2.5"/><circle cx="11" cy="11" r="3" fill="#fff"/></svg>
+            <div class="mk pin active" data-place="0" style="left:50%; top:24%;">
+              <svg width="22" height="34" viewBox="0 0 22 34"><line class="stick" x1="11" y1="18" x2="11" y2="33.5" stroke-width="2.6" stroke-linecap="round"/><circle class="ball" cx="11" cy="11" r="9" stroke="#fff" stroke-width="2.5"/><circle class="ctr" cx="11" cy="11" r="3"/></svg>
             </div>
-            <div class="mk pin" style="left:26%; top:31%;">
-              <svg width="20" height="31" viewBox="0 0 22 34"><line x1="11" y1="18" x2="11" y2="33.5" stroke="#9a948b" stroke-width="2.6" stroke-linecap="round"/><circle cx="11" cy="11" r="9" fill="#B7B1A6" stroke="#fff" stroke-width="2.5"/><circle cx="11" cy="11" r="3" fill="#ECE9E2"/></svg>
+            <div class="mk pin" data-place="1" style="left:77%; top:31%;">
+              <svg width="22" height="34" viewBox="0 0 22 34"><line class="stick" x1="11" y1="18" x2="11" y2="33.5" stroke-width="2.6" stroke-linecap="round"/><circle class="ball" cx="11" cy="11" r="9" stroke="#fff" stroke-width="2.5"/><circle class="ctr" cx="11" cy="11" r="3"/></svg>
+            </div>
+            <div class="mk pin" data-place="2" style="left:22%; top:25%;">
+              <svg width="22" height="34" viewBox="0 0 22 34"><line class="stick" x1="11" y1="18" x2="11" y2="33.5" stroke-width="2.6" stroke-linecap="round"/><circle class="ball" cx="11" cy="11" r="9" stroke="#fff" stroke-width="2.5"/><circle class="ctr" cx="11" cy="11" r="3"/></svg>
+            </div>
+            <div class="mk pin" data-place="3" style="left:84%; top:26%;">
+              <svg width="22" height="34" viewBox="0 0 22 34"><line class="stick" x1="11" y1="18" x2="11" y2="33.5" stroke-width="2.6" stroke-linecap="round"/><circle class="ball" cx="11" cy="11" r="9" stroke="#fff" stroke-width="2.5"/><circle class="ctr" cx="11" cy="11" r="3"/></svg>
             </div>
             <div class="mk ava girl" style="left:30%; top:30%;">👩</div>
             <div class="mk ava prog" style="left:65%; top:30%;">👨‍💻</div>
@@ -389,15 +399,17 @@
   var idx = 0;
   var title = document.getElementById('agTitle');
   var snip = document.getElementById('agSnippet');
+  var now = document.querySelector('.ag-now');
+  var pins = root.querySelectorAll('.mk.pin');
   function setPlace(i){
     idx = ((i % places.length) + places.length) % places.length;
     if(!title || !snip) return;
-    title.style.opacity = 0; snip.style.opacity = 0;
-    setTimeout(function(){
-      title.textContent = places[idx].t; snip.textContent = places[idx].s;
-      title.style.opacity = 1; snip.style.opacity = 1;
-    }, 170);
+    title.textContent = places[idx].t;
+    snip.textContent = places[idx].s;
+    pins.forEach(function(p){ p.classList.toggle('active', Number(p.getAttribute('data-place')) === idx); });
+    if(now){ now.classList.remove('slide'); void now.offsetWidth; now.classList.add('slide'); }
   }
+  pins.forEach(function(p){ p.addEventListener('click', function(){ setPlace(Number(p.getAttribute('data-place'))); }); });
 
   var knob = document.getElementById('agKnob');
   var sw = document.getElementById('agSwitch');
