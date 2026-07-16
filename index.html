@@ -144,6 +144,9 @@
     .ag-card{padding:1.2rem 1.25rem;}
     .ag-eyebrow{letter-spacing:.13em;}
   }
+  @media print{
+    .reveal{opacity:1 !important; transform:none !important;}
+  }
   @media (prefers-reduced-motion: reduce){
     .ag-doc *{animation:none !important; transition:none !important;}
     .reveal{opacity:1 !important; transform:none !important;}
@@ -349,6 +352,20 @@
       entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
     }, {threshold:0.12, rootMargin:'0px 0px -7% 0px'});
     reveals.forEach(function(el){ io.observe(el); });
+    // Страховка от «прыжка»: если читатель перескочил через раздел
+    // (клавиша End, якорь, резкий свайп), наблюдатель его не заметит.
+    // Догоняем: всё, что осталось выше низа экрана, показываем сразу.
+    var catchUp = function(){
+      var pending = false;
+      reveals.forEach(function(el){
+        if(!el.classList.contains('in')){
+          if(el.getBoundingClientRect().top < window.innerHeight){ el.classList.add('in'); io.unobserve(el); }
+          else { pending = true; }
+        }
+      });
+      if(!pending){ window.removeEventListener('scroll', catchUp); }
+    };
+    window.addEventListener('scroll', catchUp, {passive:true});
   } else { reveals.forEach(function(el){ el.classList.add('in'); }); }
   var hero = root.querySelector('.ag-hero');
   if(hero){ requestAnimationFrame(function(){ hero.classList.add('in'); }); }
